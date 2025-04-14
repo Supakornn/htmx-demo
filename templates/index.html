@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo App</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+      .htmx-indicator {
+        display: none;
+      }
+      .htmx-request .htmx-indicator {
+        display: inline;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: #888;
+      }
+      .todo-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .todo-item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+      }
+      .todo-item button {
+        padding: 5px 10px;
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .todo-item button:hover {
+        background-color: #cc0000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Todo List</h1>
+
+    <form hx-post="/todos" hx-target="#todo-list" hx-swap="beforeend">
+      <input type="text" name="task" required placeholder="เพิ่มงานใหม่..." />
+      <button type="submit">เพิ่ม</button>
+      <span class="htmx-indicator">กำลังเพิ่ม...</span>
+    </form>
+
+    <div id="todo-list">{{range .todos}} {{template "todo-item.html" .}} {{end}}</div>
+  </body>
+</html>
